@@ -1,6 +1,6 @@
 import Piont as p
 
-class Plateau:
+class Plateau(object):
     def __init__(self,largeur,hauteur):
         self.largeur=largeur
         self.hauteur=hauteur

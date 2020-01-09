@@ -1,7 +1,7 @@
 import Piont as p
 
 
-class Player:
+class Player(object):
     def __init__(self,name,color):
         self.name=name
         self.color=color
@@ -10,7 +10,7 @@ class Player:
     def actualCurs(self,piont):
         self.curseur=piont
 
-    def oneCase(self,dir,plt):
+    def duplicate(self,dir,plt):
         posX=self.curseur.pos[0]
         posY=self.curseur.pos[1]
         newPiont=p.Piont(self.color,None)
