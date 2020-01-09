@@ -24,10 +24,37 @@ class State(object):
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
         return newState
 
-    def getMoves(self,player,adv):
+    def voisin(self,pos):
+        posX=pos[0]
+        posY=pos[1]
+        voisins = []
+        try:
+            if (posX != self.hauteur-1):
+                self.board[posX+1][posY]
+                voisins.append(self.board[posX+1][posY])
+        except: pass
+        try:
+            if (posX != 0):
+                self.board[posX-1][posY]
+                voisins.append(self.board[posX-1][posY])
+        except: pass
+        try:
+            if (posY != self.largeur-1):
+                self.board[posX][posY+1]
+                voisins.append(self.board[posX][posY+1])
+        except: pass
+        try:
+            if (posY != 0):
+                self.board[posX][posY-1]
+                voisins.append(self.board[posX][posY-1])
+            
+        except: pass
+        return voisins
+
+    def getMoves(self,player):
         moves=[]
         for i in range(self.hauteur):
             for j in range(self.largeur):
-                if (self.board[i][j] != player and self.board[i][j] != adv):
-                    print(self.board[i][j])
-                if (self.board[i][j]=="j1")
+                if (self.board[i][j]=="j1"):
+                    print("Moves pour le piont en (",i,",",j,")")
+                    print(self.voisin((i,j)))
