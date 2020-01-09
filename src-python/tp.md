@@ -25,3 +25,8 @@ while ! S.isFinished():
   l <- s.getMoves(p)
   m <- random.choice(l)
   s <- s.play(m)
+
+////
+play(Move):
+  newState
+  newState.board <-> self.board (itération de chaque element veers le newState)
