@@ -1,3 +1,4 @@
+import Move as mv
 
 class State(object):
     def __init__(self,largeur,hauteur):
@@ -12,8 +13,29 @@ class State(object):
             for j in range(self.largeur):
                 self.board[i].append((i,j))
 
+    def getCurrentPlayer(self):
+        return self.currentPlayer
+
     def isFinished(self):
-        pass
+        #compteur de pièces pour les deux joueurs
+        countj1 = 0
+        countj2 = 0
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
+                #on incrémente les compteurs respectifs si j1 ou j2 présent
+                if "j1" == self.board[i][j]:
+                    countj1 += 1
+                elif "j2" == self.board[i][j]:
+                    countj2 += 1
+        #on vérifie les conditions dans lesquels le jeu est terminé
+        if countj1 == 0 and countj2 != 0:
+            return True
+        elif countj2 == 0 and countj1 != 0:
+            return True
+
+        if (len(self.getMoves(self.currentPlayer))==0):
+            return True
+        return False
 
     def play(self, move):
         newState=State(self.largeur,self.largeur)
@@ -36,7 +58,7 @@ class State(object):
 
         if (posX != 0 and type(self.board[posX-1][posY])==tuple):
             voisins.append(self.board[posX-1][posY])
-            if (posY !=1):
+            if (posY !=1 and type(self.board[posX-2][posY])==tuple):
                 voisins.append(self.board[posX-2][posY])
 
         if (posY < self.largeur-1 and type(self.board[posX][posY+1])==tuple):
@@ -46,7 +68,7 @@ class State(object):
 
         if (posY != 0 and type(self.board[posX][posY-1])==tuple):
             voisins.append(self.board[posX][posY-1])
-            if (posY !=1):
+            if (posY !=1 and type(self.board[posX][posY-2])==tuple):
                 voisins.append(self.board[posX][posY-2])
         return voisins
 
@@ -55,5 +77,8 @@ class State(object):
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if (self.board[i][j]==player):
-                    print("Moves pour le piont en (",i,",",j,")","du joueur",player)
-                    print(self.voisin(player,(i,j)))
+                    #print("Moves pour le piont en (",i,",",j,")","du joueur",player)
+                    #print(self.voisin(player,(i,j)))
+                    for m in self.voisin(player,(i,j)):
+                        moves.append(mv.Move((i,j),m,0))
+        return moves
