@@ -17,6 +17,10 @@ class State(object):
         return self.currentPlayer
 
     def isFinished(self):
+        if (len(self.getMoves(self.currentPlayer))==0):
+            return True
+        return False
+
         #compteur de pièces pour les deux joueurs
         countj1 = 0
         countj2 = 0
@@ -33,9 +37,6 @@ class State(object):
         elif countj2 == 0 and countj1 != 0:
             return True
 
-        if (len(self.getMoves(self.currentPlayer))==0):
-            return True
-        return False
 
     def play(self, move):
         newState=State(self.largeur,self.largeur)

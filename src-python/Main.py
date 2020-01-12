@@ -11,6 +11,7 @@ def affiche(grille):
 
 etat=s.State(3,3)
 etat.create()
+etat.currentPlayer="j1"
 etat.board[0][0]="j1"
 affiche(etat.board)
 
@@ -20,12 +21,10 @@ affiche(etat.board)
 #probleme avec la foncion isFinished
 #fonctionne pour while (len(etat.getMoves("j1"))!=0):
 
-while (etat.isFinished()):
-    
-    etat.currentPlayer="j1"
+while (not(etat.isFinished())):
     p = "j1"
     l = etat.getMoves(p)
-    print(len(etat.getMoves(p)))
     m = choice(l)
     etat = etat.play(m)
     affiche(etat.board)
+    etat.currentPlayer="j1"
