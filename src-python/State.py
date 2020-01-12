@@ -44,6 +44,10 @@ class State(object):
             newState.board.append([])
             for j in range(self.largeur):
                 newState.board[i].append(self.board[i][j])
+                if (move.type_action==1):
+                    if ((i,j)==move.start):
+                        newState.board[i][j]=(i,j)
+
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
         return newState
 
@@ -53,24 +57,24 @@ class State(object):
         voisins = []
 
         if (posX < self.hauteur-1 and type(self.board[posX+1][posY])==tuple):
-            voisins.append(self.board[posX+1][posY])
+            voisins.append((self.board[posX+1][posY],0))
         if (posX < self.hauteur-2 and type(self.board[posX+2][posY])==tuple):
-            voisins.append(self.board[posX+2][posY])
+            voisins.append((self.board[posX+2][posY],1))
 
         if (posX != 0 and type(self.board[posX-1][posY])==tuple):
-            voisins.append(self.board[posX-1][posY])
+            voisins.append((self.board[posX-1][posY],0))
             if (posY !=1 and type(self.board[posX-2][posY])==tuple):
-                voisins.append(self.board[posX-2][posY])
+                voisins.append((self.board[posX-2][posY],1))
 
         if (posY < self.largeur-1 and type(self.board[posX][posY+1])==tuple):
-            voisins.append(self.board[posX][posY+1])
+            voisins.append((self.board[posX][posY+1],0))
         if (posY < self.largeur-2 and type(self.board[posX][posY+2])==tuple):
-            voisins.append(self.board[posX][posY+2])
+            voisins.append((self.board[posX][posY+2],1))
 
         if (posY != 0 and type(self.board[posX][posY-1])==tuple):
-            voisins.append(self.board[posX][posY-1])
+            voisins.append((self.board[posX][posY-1],0))
             if (posY !=1 and type(self.board[posX][posY-2])==tuple):
-                voisins.append(self.board[posX][posY-2])
+                voisins.append((self.board[posX][posY-2],1))
         return voisins
 
     def getMoves(self,player):
@@ -81,5 +85,5 @@ class State(object):
                     #print("Moves pour le piont en (",i,",",j,")","du joueur",player)
                     #print(self.voisin(player,(i,j)))
                     for m in self.voisin(player,(i,j)):
-                        moves.append(mv.Move((i,j),m,0))
+                        moves.append(mv.Move((i,j),m[0],m[1]))
         return moves
