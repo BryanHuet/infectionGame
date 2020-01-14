@@ -47,12 +47,7 @@ class State(object):
                 if (move.type_action==1):
                     if ((i,j)==move.start):
                         newState.board[i][j]=(i,j)
-
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
-        if (move.type_action==0):
-            for i in (self.voisin(self.currentPlayer,(move.end[0],move.end[1]),False)):
-                if (i[0]==tuple):
-                    newState.board[i[0][0]][i[0][1]]=self.currentPlayer
         return newState
 
     def voisin(self,player,pos,all):
@@ -60,31 +55,24 @@ class State(object):
         posY=pos[1]
         voisins = []
 
-        if (posX < self.hauteur-1 and type(self.board[posX+1][posY])==tuple):
+        if (posX < self.hauteur-1):
             voisins.append((self.board[posX+1][posY],0))
-        if (all):
-            if (posX < self.hauteur-2 and type(self.board[posX+2][posY])==tuple):
-                voisins.append((self.board[posX+2][posY],1))
-
-        if (posX != 0):
-            if (type(self.board[posX-1][posY])==tuple):
-                voisins.append((self.board[posX-1][posY],0))
-            if (all):
-                if (posY !=1 and type(self.board[posX-2][posY])==tuple):
-                    voisins.append((self.board[posX-2][posY],1))
-
-        if (posY < self.largeur-1 and type(self.board[posX][posY+1])==tuple):
+        if (posX > 0):
+            voisins.append((self.board[posX-1][posY],0))
+        if (posY < self.largeur-1):
             voisins.append((self.board[posX][posY+1],0))
-        if (all):
-            if (posY < self.largeur-2 and type(self.board[posX][posY+2])==tuple):
-                voisins.append((self.board[posX][posY+2],1))
+        if (posY > 0):
+            voisins.append((self.board[posX][posY-1],0))
 
-        if (posY != 0):
-            if (type(self.board[posX][posY-1])==tuple):
-                voisins.append((self.board[posX][posY-1],0))
-            if(all):
-                if (posY !=1 and type(self.board[posX][posY-2])==tuple):
-                    voisins.append((self.board[posX][posY-2],1))
+        if (all):
+            if (posX < self.hauteur-2):
+                voisins.append((self.board[posX+2][posY],1))
+            if (posX > 1):
+                voisins.append((self.board[posX-2][posY],1))
+            if (posY < self.largeur-2):
+                voisins.append((self.board[posX][posY+2],1))
+            if (posY >0):
+                voisins.append((self.board[posX][posY-2],1))
         return voisins
 
     def getMoves(self,player):
@@ -92,8 +80,25 @@ class State(object):
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if (self.board[i][j]==player):
-                    print("Moves pour le piont en (",i,",",j,")","du joueur",player)
-                    print(self.voisin(player,(i,j),True))
+                    #print("Moves pour le piont en (",i,",",j,")","du joueur",player)
+                    #print(self.voisin(player,(i,j),True))
                     for m in self.voisin(player,(i,j),True):
-                        moves.append(mv.Move((i,j),m[0],m[1]))
+                        if (type(m[0])==tuple):
+                            moves.append(mv.Move((i,j),(m[0][0],m[0][1]),m[1]))
         return moves
+
+    def nbPionts(self,player):
+        nb=0
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
+                if (self.board[i][j]==player):
+                    nb=nb+1
+        return nb
+
+    def eval(self):
+        player=self.currentPlayer
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
+                if (self.board[i][j]!=player and type(self.board[i][j])== str):
+                    adv=self.board[i][j]
+        return (self.nbPionts(player)/(self.nbPionts(player)+self.nbPionts(adv)))

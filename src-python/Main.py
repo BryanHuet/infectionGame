@@ -8,40 +8,32 @@ def affiche(grille):
         print (grille[i])
     print()
 
+def negamax(etat,depth):
+    if (etat.isFinished() or depth==0):
+        return etat.eval()
+    m = -1000000000
+    ensemble_etatF=[]
+    for move in etat.getMoves(etat.currentPlayer):
+        ensemble_etatF.append(etat.play(move))
+    for etat_futur in ensemble_etatF:
+        etat_futur.currentPlayer=etat.currentPlayer
+        m=max(m,-negamax(etat_futur,depth-1))
+    return m
 
+def best_move(etat):
+    pass
 etat=s.State(3,3)
 etat.create()
 etat.currentPlayer="j1"
 etat.board[0][0]="j1"
-etat.board[0][2]="j2"
 etat.board[2][2]="j2"
-
-test=mv.Move((0,0),(0,1),0)
-etat=etat.play(test)
 affiche(etat.board)
 
 
-
-
-
-#Fonction pour seulement 1j; function isFinished ne prend en compte j2 seulement
-#lorsque l'etat lui permet le dernier coup.
-
-#while (not(etat.isFinished())):
-#    p = "j1";
-#    l = etat.getMoves(p)
-#    m = choice(l)
-#    print("move j1 choisi : ",m.type_action," start: ",m.start," end: ",m.end)
-#    etat = etat.play(m)
-#
-#    etat.currentPlayer="j2"
-#    affiche(etat.board)
-#    p2 = "j2";
-#    l2 = etat.getMoves(p2)
-#    m2 = choice(l2)
-#    print("move j2 choisi : ",m2.type_action," start: ",m2.start," end: ",m2.end)
-#    etat = etat.play(m2)
-#
-#
-#    affiche(etat.board)
-#    etat.currentPlayer="j1"
+while (not(etat.isFinished())):
+    p=etat.currentPlayer
+    l=etat.getMoves(p)
+    m=choice(l)
+    etat=etat.play(m)
+    etat.currentPlayer="j1"
+    #affiche(etat.board)
