@@ -40,6 +40,7 @@ class State(object):
 
     def play(self, move):
         newState=State(self.largeur,self.largeur)
+        newState.currentPlayer=self.currentPlayer
         for i in range(self.hauteur):
             newState.board.append([])
             for j in range(self.largeur):
