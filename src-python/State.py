@@ -80,11 +80,12 @@ class State(object):
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if (self.board[i][j]==player):
-                    #print("Moves pour le piont en (",i,",",j,")","du joueur",player)
-                    #print(self.voisin(player,(i,j),True))
                     for m in self.voisin(player,(i,j),True):
                         if (type(m[0])==tuple):
-                            moves.append(mv.Move((i,j),(m[0][0],m[0][1]),m[1]))
+                            move=mv.Move((i,j),(m[0][0],m[0][1]),m[1])
+                            moves.append(move)
+                            #print(move.toString())
+
         return moves
 
     def nbPionts(self,player):

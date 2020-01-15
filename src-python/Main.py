@@ -1,7 +1,6 @@
 import State as s
 import Move as mv
 from random import *
-import time
 
 def affiche(grille):
     print()
@@ -42,15 +41,21 @@ etat.board[0][0]="j1"
 etat.board[2][2]="j2"
 affiche(etat.board)
 
-start_time=time.time()
-#print(negamax(etat,6))
-print(alphabeta(etat,-100000,100000,6))
-print("Temps d execution : %s secondes ---" % (time.time() - start_time))
+#print(alphabeta(etat,-100000,100000,4))
 
 
+a=0
 while (not(etat.isFinished())):
     p=etat.currentPlayer
     l=etat.getMoves(p)
     m=choice(l)
     etat=etat.play(m)
-    etat.currentPlayer="j1"
+    if (a%2==0):
+        etat.currentPlayer="j1"
+    else:
+        etat.currentPlayer="j2"
+    a+=1
+    affiche(etat.board)
+
+print("nbPionts j1: ",etat.nbPionts("j1"))
+print("nbPionts j2: ",etat.nbPionts("j2"))
