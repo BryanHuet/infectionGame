@@ -15,6 +15,8 @@ class State(object):
 
     def getCurrentPlayer(self):
         return self.currentPlayer
+    def setCurrentPlayer(self,player):
+        self.currentPlayer=player
 
     def isFinished(self):
         if (len(self.getMoves(self.currentPlayer))==0):
@@ -51,7 +53,10 @@ class State(object):
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
         return newState
 
-    def voisin(self,player,pos,all):
+#Renvoie une liste des voisins suivant une position donnée
+#all est une variable booleenne, True -> alors on va recuperer tout les voisins
+# False -> on recupère uniquement les voisins frontaliers.
+    def voisin(self,pos,all):
         posX=pos[0]
         posY=pos[1]
         voisins = []
@@ -72,7 +77,7 @@ class State(object):
                 voisins.append((self.board[posX-2][posY],1))
             if (posY < self.largeur-2):
                 voisins.append((self.board[posX][posY+2],1))
-            if (posY >0):
+            if (posY >1):
                 voisins.append((self.board[posX][posY-2],1))
         return voisins
 
@@ -81,11 +86,10 @@ class State(object):
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if (self.board[i][j]==player):
-                    for m in self.voisin(player,(i,j),True):
+                    for m in self.voisin((i,j),True):
                         if (type(m[0])==tuple):
                             move=mv.Move((i,j),(m[0][0],m[0][1]),m[1])
                             moves.append(move)
-                            #print(move.toString())
 
         return moves
 

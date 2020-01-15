@@ -14,7 +14,7 @@ def affiche(grille):
 
 etat=s.State(3,3)
 etat.create()
-etat.currentPlayer="j1"
+etat.setCurrentPlayer("j1")
 etat.board[0][0]="j1"
 etat.board[1][1]="j2"
 
@@ -31,9 +31,9 @@ a=1
     #m=best_move(etat,l)
 #    etat=etat.play(m)
 #    if (a%2==0):
-#        etat.currentPlayer="j1"
+#        etat.setCurrentPlayer("j1")
 #    else:
-#        etat.currentPlayer="j2"
+#        etat.setCurrentPlayer("j2")
 #    a+=1
     #affiche(etat.board)
 
