@@ -16,21 +16,16 @@ etat=s.State(3,3)
 etat.create()
 etat.setCurrentPlayer("j1")
 etat.board[0][0]="j1"
-etat.board[1][1]="j2"
-etat.board[2][0]="j2"
-etat.board[0][1]="j2"
-etat.board[2][2]="j2"
-move=mv.Move((0,0),(1,0),0)
-etat=etat.play(move);
+etat.board[-1][-1]="j2"
 affiche(etat.board)
 
-"""
+
 a=1
 while (not(etat.isFinished())):
     p=etat.currentPlayer
     l=etat.getMoves(p)
     #m=choice(l)
-    m=best_move(etat,l,4)
+    m=best_move(etat,l,2)
     etat=etat.play(m)
     if (a%2==0):
         etat.setCurrentPlayer("j1")
@@ -41,4 +36,3 @@ while (not(etat.isFinished())):
 
 print("nbPionts j1: ",etat.nbPionts("j1"))
 print("nbPionts j2: ",etat.nbPionts("j2"))
-"""

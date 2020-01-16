@@ -51,9 +51,6 @@ class State(object):
     def play(self, move):
         newState=State(self.largeur,self.hauteur)
         newState.currentPlayer=self.currentPlayer
-        voisins_futur=self.voisin((move.end[0],move.end[1]),False)
-        print(voisins_futur)
-
         for i in range(self.hauteur):
             newState.board.append([])
             for j in range(self.largeur):
@@ -61,17 +58,19 @@ class State(object):
                 if (move.type_action==1):
                     if ((i,j)==move.start):
                         newState.board[i][j]=(i,j)
-                        """
-                if (move.type_action==0):
-                    if (move.end[0] < self.hauteur-1):
-                        newState.board[i][j]=self.currentPlayer
-                    if (move.end[0] > 0):
-                        newState.board[i][j]=self.currentPlayer
-                    if (move.end[1] < self.largeur-1):
-                        newState.board[i][j]=self.currentPlayer
-                    if (move.end[1] > 0):
-                        newState.board[i][j]=self.currentPlayer
-"""
+        if (move.type_action==0):
+            if (move.end[0] < self.hauteur-1):
+                if(type(self.board[move.end[0]+1][move.end[1]])==str):
+                    newState.board[move.end[0]+1][move.end[1]]=self.currentPlayer
+            if (move.end[0] > 0):
+                if(type(self.board[move.end[0]-1][move.end[1]])==str):
+                    newState.board[move.end[0]-1][move.end[1]]=self.currentPlayer
+            if (move.end[1] < self.largeur-1):
+                if(type(self.board[move.end[0]][move.end[1]+1])==str):
+                    newState.board[move.end[0]][move.end[1]+1]=self.currentPlayer
+            if (move.end[1] > 0):
+                if(type(self.board[move.end[0]][move.end[1]-1])==str):
+                    newState.board[move.end[0]][move.end[1]-1]=self.currentPlayer
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
         return newState
 
@@ -117,8 +116,13 @@ class State(object):
 
     def eval(self):
         player=self.currentPlayer
+        adv=None
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if (self.board[i][j]!=player and type(self.board[i][j])== str):
                     adv=self.board[i][j]
-        return (self.nbPionts(player)/(self.nbPionts(player)+self.nbPionts(adv)))
+        if (adv==None):
+            score_adv=0
+        else:
+            score_adv=self.nbPionts(adv)
+        return (self.nbPionts(player)/(self.nbPionts(player)+score_adv))
