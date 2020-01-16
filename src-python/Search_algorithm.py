@@ -1,6 +1,6 @@
 #Ces fonctions supossent toutes qu'il existe une class etat
 # possédant un currentPlayer, une méthode getMoves(player), une méthode play(move)
-# ainsi qu'une méthode isFinished()                                       
+# ainsi qu'une méthode isFinished()
 
 
 
@@ -35,11 +35,11 @@ def alphabeta(etat,a,b,depth):
 
 
 #best_move permet de recuperer le meilleur mouvement possible suivant alphabeta
-def best_move(etat,list_moves):
+def best_move(etat,list_moves,depth):
     best_move=list_moves[0]
     for m in list_moves:
-        alphabeta_m=alphabeta(etat.play(m),-1000,1000,2)
-        alphabeta_bestMove=alphabeta(etat.play(best_move),-1000,1000,2)
+        alphabeta_m=alphabeta(etat.play(m),-1000,1000,depth)
+        alphabeta_bestMove=alphabeta(etat.play(best_move),-1000,1000,depth)
         if (alphabeta_m>alphabeta_bestMove):
             best_move=m
     return best_move

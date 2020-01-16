@@ -17,25 +17,28 @@ etat.create()
 etat.setCurrentPlayer("j1")
 etat.board[0][0]="j1"
 etat.board[1][1]="j2"
-
+etat.board[2][0]="j2"
+etat.board[0][1]="j2"
+etat.board[2][2]="j2"
 move=mv.Move((0,0),(1,0),0)
 etat=etat.play(move);
 affiche(etat.board)
 
-
+"""
 a=1
-#while (not(etat.isFinished())):
-#    p=etat.currentPlayer
-#    l=etat.getMoves(p)
-#    m=choice(l)
-    #m=best_move(etat,l)
-#    etat=etat.play(m)
-#    if (a%2==0):
-#        etat.setCurrentPlayer("j1")
-#    else:
-#        etat.setCurrentPlayer("j2")
-#    a+=1
-    #affiche(etat.board)
+while (not(etat.isFinished())):
+    p=etat.currentPlayer
+    l=etat.getMoves(p)
+    #m=choice(l)
+    m=best_move(etat,l,4)
+    etat=etat.play(m)
+    if (a%2==0):
+        etat.setCurrentPlayer("j1")
+    else:
+        etat.setCurrentPlayer("j2")
+    a+=1
+    affiche(etat.board)
 
-#print("nbPionts j1: ",etat.nbPionts("j1"))
-#print("nbPionts j2: ",etat.nbPionts("j2"))
+print("nbPionts j1: ",etat.nbPionts("j1"))
+print("nbPionts j2: ",etat.nbPionts("j2"))
+"""

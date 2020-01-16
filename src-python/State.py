@@ -18,6 +18,14 @@ class State(object):
     def setCurrentPlayer(self,player):
         self.currentPlayer=player
 
+    def nbPionts(self,player):
+        nb=0
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
+                if (self.board[i][j]==player):
+                    nb=nb+1
+        return nb
+
     def isFinished(self):
         if (len(self.getMoves(self.currentPlayer))==0):
             return True
@@ -41,8 +49,11 @@ class State(object):
 
 
     def play(self, move):
-        newState=State(self.largeur,self.largeur)
+        newState=State(self.largeur,self.hauteur)
         newState.currentPlayer=self.currentPlayer
+        voisins_futur=self.voisin((move.end[0],move.end[1]),False)
+        print(voisins_futur)
+
         for i in range(self.hauteur):
             newState.board.append([])
             for j in range(self.largeur):
@@ -50,6 +61,17 @@ class State(object):
                 if (move.type_action==1):
                     if ((i,j)==move.start):
                         newState.board[i][j]=(i,j)
+                        """
+                if (move.type_action==0):
+                    if (move.end[0] < self.hauteur-1):
+                        newState.board[i][j]=self.currentPlayer
+                    if (move.end[0] > 0):
+                        newState.board[i][j]=self.currentPlayer
+                    if (move.end[1] < self.largeur-1):
+                        newState.board[i][j]=self.currentPlayer
+                    if (move.end[1] > 0):
+                        newState.board[i][j]=self.currentPlayer
+"""
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
         return newState
 
@@ -92,14 +114,6 @@ class State(object):
                             moves.append(move)
 
         return moves
-
-    def nbPionts(self,player):
-        nb=0
-        for i in range(self.hauteur):
-            for j in range(self.largeur):
-                if (self.board[i][j]==player):
-                    nb=nb+1
-        return nb
 
     def eval(self):
         player=self.currentPlayer
