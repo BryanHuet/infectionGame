@@ -1,8 +1,7 @@
 #Ces fonctions supossent toutes qu'il existe une class etat
 # possédant un currentPlayer, une méthode getMoves(player), une méthode play(move)
 # ainsi qu'une méthode isFinished()
-
-
+compteur =0
 
 def negamax(etat,depth):
     if (etat.isFinished() or depth==0):
@@ -20,12 +19,15 @@ def negamax(etat,depth):
 
 
 def alphabeta(etat,a,b,depth):
+    global compteur
     if (etat.isFinished() or depth==0):
         return etat.eval()
     ensemble_etatF=[]
     for move in etat.getMoves(etat.getCurrentPlayer()):
         ensemble_etatF.append(etat.play(move))
     for etat_futur in ensemble_etatF:
+
+        compteur=compteur+1
         a=max(a,-alphabeta(etat_futur,-b,-a,depth-1))
         if (a > b):
             return a
@@ -43,3 +45,6 @@ def best_move(etat,list_moves,depth):
         if (alphabeta_m>alphabeta_bestMove):
             best_move=m
     return best_move
+
+def nb_noeuds():
+    print("Nombre de noeuds explorés: ",compteur)
