@@ -27,15 +27,19 @@ class State(object):
         return nb
 
     def isFinished(self):
-        if (len(self.getMoves(self.currentPlayer))==0):
+        if (len(self.getMoves("j1"))==0):
             return True
-        if self.nbPionts("j1") ==0 or self.nbPionts("j2") == 0:
+        if (len(self.getMoves("j2"))==0):
+            return True
+        if (self.nbPionts("j1")==0):
+            return True
+        if (self.nbPionts("j2")==0):
             return True
 
         return False
 
-    def nextPlayer(self):
-        if (self.currentPlayer=="j1"):
+    def nextPlayer(self,player):
+        if (player=="j1"):
             self.setCurrentPlayer("j2")
         else:
             self.setCurrentPlayer("j1")
@@ -43,7 +47,6 @@ class State(object):
 
     def play(self, move):
         newState=State(self.largeur,self.hauteur)
-        newState.currentPlayer=self.nextPlayer()
         for i in range(self.hauteur):
             newState.board.append([])
             for j in range(self.largeur):
@@ -65,7 +68,7 @@ class State(object):
                 if(type(self.board[move.end[0]][move.end[1]-1])==str):
                     newState.board[move.end[0]][move.end[1]-1]=self.currentPlayer
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
-
+        newState.nextPlayer(self.getCurrentPlayer())
         return newState
 
 #Renvoie une liste des voisins suivant une position donnée

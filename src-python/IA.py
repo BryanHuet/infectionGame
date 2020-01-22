@@ -21,10 +21,12 @@ class IA(object):
 
 
     def alphabeta(self,etat,a,b,depth):
-        if (etat.isFinished() or depth==0):
+        if (depth==0 or etat.isFinished()):
+            if (etat.getCurrentPlayer()==self.player):
+                return -etat.eval(self.player)
             return etat.eval(self.player)
         ensemble_etatF=[]
-        for move in etat.getMoves(self.player):
+        for move in etat.getMoves(etat.getCurrentPlayer()):
             ensemble_etatF.append(etat.play(move))
         for etat_futur in ensemble_etatF:
             a=max(a,-self.alphabeta(etat_futur,-b,-a,depth-1))
@@ -35,11 +37,11 @@ class IA(object):
     def decide(self,etat):
         b=-100000
         c=None
-        for m in etat.getMoves(self.player):
-            etat_f=etat.play(m)
-            move=self.negamax(etat_f,15)
-            print(m, move)
-            if (move > b):
-                b=move
-                c=m
+        for move in etat.getMoves(self.player):
+            etat_f=etat.play(move)
+            m=self.alphabeta(etat_f,-10000,10000,self.deepness)
+            #print(move, m)
+            if (m > b):
+                b=m
+                c=move
         return c

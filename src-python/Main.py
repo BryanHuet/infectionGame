@@ -11,36 +11,21 @@ def affiche(grille):
         print (grille[i])
     print()
 
-def jeu():
-    etat=s.State(3,3)
+def jeu(longueur,hauteur):
+    etat=s.State(longueur,hauteur)
     etat.create()
     etat.setCurrentPlayer("j1")
     etat.board[0][0]="j1"
     etat.board[-1][-1]="j2"
     affiche(etat.board)
-    a=0
     while (not(etat.isFinished())):
-        p=etat.currentPlayer
+        p=etat.getCurrentPlayer()
+        iajoueur=ia.IA(p,4)
         l=etat.getMoves(p)
-
-    #Choix random des coups:
         #m=choice(l)
-
-    #Choix du best_move:
-        m=best_move(etat,l,4)
-        #profondeur different pour chaque joueur
-        #if (a%2==0):
-        #    m=best_move(etat,l,4)
-        #else:
-        #    m=best_move(etat,l,2)
-
+        m=iajoueur.decide(etat)
         etat=etat.play(m)
 
-        if (a%2==1):
-            etat.setCurrentPlayer("j1")
-        else:
-            etat.setCurrentPlayer("j2")
-        a+=1
         affiche(etat.board)
 
     print("nbPionts j1: ",etat.nbPionts("j1"))
@@ -58,9 +43,7 @@ def test():
     affiche(etat.board)
     l=etat.getMoves("j1")
     start_time = time.time()
-    print(iajoueur.decide(etat).toString())
     print("Temps d execution : %s secondes ---" % (time.time() - start_time))
 
-
-test()
-#jeu()
+#test()
+jeu(4,4)

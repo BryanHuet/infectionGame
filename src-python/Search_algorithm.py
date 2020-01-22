@@ -19,14 +19,12 @@ def negamax(etat,depth):
 
 
 def alphabeta(etat,a,b,depth):
-    global compteur
     if (etat.isFinished() or depth==0):
         return etat.eval()
     ensemble_etatF=[]
     for move in etat.getMoves(etat.getCurrentPlayer()):
         ensemble_etatF.append(etat.play(move))
     for etat_futur in ensemble_etatF:
-        compteur=compteur+1
         a=max(a,-alphabeta(etat_futur,-b,-a,depth-1))
         if (a > b):
             return a
