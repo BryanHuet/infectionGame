@@ -30,3 +30,14 @@ while ! S.isFinished():
 play(Move):
   newState
   newState.board <-> self.board (itération de chaque element veers le newState)
+
+-----------------------------------------------------------------------------------
+Class IA
+
+Player
+depth
+cut
+
+-> on peut inclure le souvenir du best move dans l'algo; en sauvegardent en plus des valeurs des etats le coup à jouer
+ou
+-> sous function qui au premier etage choisi un move

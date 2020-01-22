@@ -1,5 +1,6 @@
 import State as s
 import Move as mv
+import IA as ia
 from Search_algorithm import *
 from random import *
 import time
@@ -46,18 +47,20 @@ def jeu():
     print("nbPionts j2: ",etat.nbPionts("j2"))
 
 #TESTS
-etat=s.State(3,3)
-etat.create()
-etat.setCurrentPlayer("j1")
-etat.board[0][0]="j1"
-etat.board[-1][-1]="j2"
-affiche(etat.board)
+def test():
+    etat=s.State(3,3)
+    iajoueur=ia.IA("j1",4)
+    etat.create()
+    etat.setCurrentPlayer("j1")
+    etat.board[0][0]="j1"
 
-l=etat.getMoves("j1")
-start_time = time.time()
-alphabeta(etat,-10000,10000,2)
-print("Temps d execution : %s secondes ---" % (time.time() - start_time))
+    etat.board[-1][-1]="j2"
+    affiche(etat.board)
+    l=etat.getMoves("j1")
+    start_time = time.time()
+    print(iajoueur.decide(etat).toString())
+    print("Temps d execution : %s secondes ---" % (time.time() - start_time))
 
-nb_noeuds()
 
+test()
 #jeu()

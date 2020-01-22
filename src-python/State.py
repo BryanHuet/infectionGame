@@ -29,28 +29,21 @@ class State(object):
     def isFinished(self):
         if (len(self.getMoves(self.currentPlayer))==0):
             return True
+        if self.nbPionts("j1") ==0 or self.nbPionts("j2") == 0:
+            return True
+
         return False
 
-        #compteur de pièces pour les deux joueurs
-        countj1 = 0
-        countj2 = 0
-        for i in range(self.hauteur):
-            for j in range(self.largeur):
-                #on incrémente les compteurs respectifs si j1 ou j2 présent
-                if "j1" == self.board[i][j]:
-                    countj1 += 1
-                elif "j2" == self.board[i][j]:
-                    countj2 += 1
-        #on vérifie les conditions dans lesquels le jeu est terminé
-        if countj1 == 0 and countj2 != 0:
-            return True
-        elif countj2 == 0 and countj1 != 0:
-            return True
+    def nextPlayer(self):
+        if (self.currentPlayer=="j1"):
+            self.setCurrentPlayer("j2")
+        else:
+            self.setCurrentPlayer("j1")
 
 
     def play(self, move):
         newState=State(self.largeur,self.hauteur)
-        newState.currentPlayer=self.currentPlayer
+        newState.currentPlayer=self.nextPlayer()
         for i in range(self.hauteur):
             newState.board.append([])
             for j in range(self.largeur):
@@ -72,6 +65,7 @@ class State(object):
                 if(type(self.board[move.end[0]][move.end[1]-1])==str):
                     newState.board[move.end[0]][move.end[1]-1]=self.currentPlayer
         newState.board[move.end[0]][move.end[1]]=self.currentPlayer
+
         return newState
 
 #Renvoie une liste des voisins suivant une position donnée
@@ -114,13 +108,8 @@ class State(object):
 
         return moves
 
-    def eval(self):
-        player=self.currentPlayer
-        adv=None
-        for i in range(self.hauteur):
-            for j in range(self.largeur):
-                if (self.board[i][j]!=player and type(self.board[i][j])== str):
-                    adv=self.board[i][j]
+    def eval(self,player):
+        adv = "j2" if player == "j1" else "j1"
         if (adv==None):
             score_adv=0
         else:

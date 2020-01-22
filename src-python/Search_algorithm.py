@@ -26,7 +26,6 @@ def alphabeta(etat,a,b,depth):
     for move in etat.getMoves(etat.getCurrentPlayer()):
         ensemble_etatF.append(etat.play(move))
     for etat_futur in ensemble_etatF:
-
         compteur=compteur+1
         a=max(a,-alphabeta(etat_futur,-b,-a,depth-1))
         if (a > b):
@@ -45,6 +44,17 @@ def best_move(etat,list_moves,depth):
         if (alphabeta_m>alphabeta_bestMove):
             best_move=m
     return best_move
+
+def decide(etat):
+    b=-100000
+    c=None
+    for m in etat.getMoves(etat.getCurrentPlayer()):
+        etat_f=etat.play(m)
+        move=negamax(etat_f)
+        if (move > b):
+            b=move
+            c=m
+    return c
 
 def nb_noeuds():
     print("Nombre de noeuds explorés: ",compteur)
