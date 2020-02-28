@@ -35,7 +35,6 @@ class State(object):
             return True
         if (self.nbPionts("j2")==0):
             return True
-
         return False
 
     def nextPlayer(self,player):
@@ -118,3 +117,11 @@ class State(object):
         else:
             score_adv=self.nbPionts(adv)
         return (self.nbPionts(player)/(self.nbPionts(player)+score_adv))
+
+
+    def affiche(self):
+        grille=self.board
+        print()
+        for i in range(len(grille)):
+            print (grille[i])
+        print()

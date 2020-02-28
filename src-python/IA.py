@@ -1,7 +1,9 @@
 class IA(object):
-    def __init__(self,player,deepness):
+    def __init__(self,player,deepness,alphaBeta):
         self.player=player
         self.deepness=deepness
+        self.alphaBeta=alphaBeta
+
 
     def negamax(self,etat,depth):
         if (depth==0 or etat.isFinished()):
@@ -39,7 +41,10 @@ class IA(object):
         c=None
         for move in etat.getMoves(self.player):
             etat_f=etat.play(move)
-            m=self.alphabeta(etat_f,-10000,10000,self.deepness)
+            if(self.alphaBeta):
+                m=self.alphabeta(etat_f,-10000,10000,self.deepness)
+            else:
+                m=self.negamax(etat_f,self.deepness)    
             #print(move, m)
             if (m > b):
                 b=m

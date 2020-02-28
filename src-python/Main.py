@@ -1,32 +1,36 @@
 import State as s
 import Move as mv
 import IA as ia
+import Piont as pi
 from Search_algorithm import *
 from random import *
 import time
 
-def affiche(grille):
-    print()
-    for i in range(len(grille)):
-        print (grille[i])
-    print()
 
-def jeu(longueur,hauteur):
+
+def jeu(longueur,hauteur,avance,profB,profN,alphaBeta):
     etat=s.State(longueur,hauteur)
     etat.create()
     etat.setCurrentPlayer("j1")
     etat.board[0][0]="j1"
     etat.board[-1][-1]="j2"
-    affiche(etat.board)
+    etat.affiche()
     while (not(etat.isFinished())):
+        if(avance>0):
+            avance=avance-1
+            etat.setCurrentPlayer("j1")
+
         p=etat.getCurrentPlayer()
-        iajoueur=ia.IA(p,4)
+        if(p=="j1"):
+            iajoueur=ia.IA(p,profB,alphaBeta)
+        else:
+            iajoueur=ia.IA(p,profN,alphaBeta)
         l=etat.getMoves(p)
         #m=choice(l)
         m=iajoueur.decide(etat)
         etat=etat.play(m)
 
-        affiche(etat.board)
+        etat.affiche()
 
     print("nbPionts j1: ",etat.nbPionts("j1"))
     print("nbPionts j2: ",etat.nbPionts("j2"))
@@ -34,16 +38,14 @@ def jeu(longueur,hauteur):
 #TESTS
 def test():
     etat=s.State(3,3)
-    iajoueur=ia.IA("j1",4)
     etat.create()
     etat.setCurrentPlayer("j1")
     etat.board[0][0]="j1"
-
     etat.board[-1][-1]="j2"
-    affiche(etat.board)
-    l=etat.getMoves("j1")
+    etat.affiche()
+
     start_time = time.time()
     print("Temps d execution : %s secondes ---" % (time.time() - start_time))
 
 #test()
-jeu(4,4)
+jeu(3,3,2,4,4,True)
