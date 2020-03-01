@@ -18,6 +18,7 @@ class State(object):
     def setCurrentPlayer(self,player):
         self.currentPlayer=player
 
+#Renvoie le nombre de piont du joueur entré en paramètre
     def nbPionts(self,player):
         nb=0
         for i in range(self.hauteur):
@@ -25,6 +26,7 @@ class State(object):
                 if (self.board[i][j]==player):
                     nb=nb+1
         return nb
+
 
     def isFinished(self):
         if (len(self.getMoves("j1"))==0):
@@ -37,6 +39,7 @@ class State(object):
             return True
         return False
 
+#Revoie le prochain joueur
     def nextPlayer(self,player):
         if (player=="j1"):
             self.setCurrentPlayer("j2")
@@ -98,6 +101,7 @@ class State(object):
                 voisins.append((self.board[posX][posY-2],1))
         return voisins
 
+#Revoie la liste des mouvements possibles du joueur entré en paramètre;
     def getMoves(self,player):
         moves=[]
         for i in range(self.hauteur):
@@ -107,15 +111,14 @@ class State(object):
                         if (type(m[0])==tuple):
                             move=mv.Move((i,j),(m[0][0],m[0][1]),m[1])
                             moves.append(move)
-
         return moves
 
     def eval(self,player):
-        adv = "j2" if player == "j1" else "j1"
-        if (adv==None):
-            score_adv=0
+        if (player=="j1"):
+            adv="j2"
         else:
-            score_adv=self.nbPionts(adv)
+            adv="j1"
+        score_adv=self.nbPionts(adv)
         return (self.nbPionts(player)/(self.nbPionts(player)+score_adv))
 
 

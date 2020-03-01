@@ -2,9 +2,20 @@ import State as s
 import Move as mv
 import IA as ia
 import Piont as pi
-from Search_algorithm import *
 from random import *
 import time
+print()
+#TESTS
+def test():
+    etat=s.State(3,3)
+    etat.create()
+    etat.setCurrentPlayer("j1")
+    etat.board[0][0]="j1"
+    etat.board[-1][-1]="j2"
+    etat.affiche()
+    iaj=ia.IA("j1",3,False)
+    iaj.decide(etat)
+    print(iaj.nombreNoeud)
 
 
 
@@ -14,12 +25,15 @@ def jeu(longueur,hauteur,avance,profB,profN,alphaBeta):
     etat.setCurrentPlayer("j1")
     etat.board[0][0]="j1"
     etat.board[-1][-1]="j2"
+    tour=0
+    print("tour de jeu: ",tour)
     etat.affiche()
+    nombreNoeudTotal=0
+
     while (not(etat.isFinished())):
         if(avance>0):
             avance=avance-1
             etat.setCurrentPlayer("j1")
-
         p=etat.getCurrentPlayer()
         if(p=="j1"):
             iajoueur=ia.IA(p,profB,alphaBeta)
@@ -29,23 +43,14 @@ def jeu(longueur,hauteur,avance,profB,profN,alphaBeta):
         #m=choice(l)
         m=iajoueur.decide(etat)
         etat=etat.play(m)
-
+        tour+=1
+        print("tour de jeu: ",tour)
         etat.affiche()
 
     print("nbPionts j1: ",etat.nbPionts("j1"))
     print("nbPionts j2: ",etat.nbPionts("j2"))
 
-#TESTS
-def test():
-    etat=s.State(3,3)
-    etat.create()
-    etat.setCurrentPlayer("j1")
-    etat.board[0][0]="j1"
-    etat.board[-1][-1]="j2"
-    etat.affiche()
 
-    start_time = time.time()
-    print("Temps d execution : %s secondes ---" % (time.time() - start_time))
 
 #test()
-jeu(3,3,2,4,4,True)
+jeu(3,3,0,2,2,True)
